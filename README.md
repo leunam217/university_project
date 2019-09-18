@@ -1,7 +1,7 @@
 # FriendsOfMine_M2
 
-### NOM :
-### Prénom :
-### Groupe de TP :
+### NOM : CABARCOS BAULINA 
+### Prénom : Manuek
+### Groupe de TP : ?
 - [x] 1
 

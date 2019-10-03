@@ -38,4 +38,8 @@ public class Activite {
     public void setDescriptif(String descriptif) {
         this.descriptif = descriptif;
     }
+
+    public String getTitre() {
+        return titre;
+    }
 }

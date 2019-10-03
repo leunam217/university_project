@@ -23,24 +23,24 @@ public class DataLoader implements ApplicationRunner {
     }
 
     public void run() {
-        initActivites();
         initUtilisateurs();
+        initActivites();
     }
 
     public void initActivites() {
-        Guitare = new Activite("Guitare","Matériel non fourni");
+        Guitare = new Activite("Guitare","Matériel non fourni",Thom);
         activiteService.saveActivite(Guitare);
-        Muscu = new Activite("Muscu","Créneau réservé le mardi");
+        Muscu = new Activite("Muscu","Créneau réservé le mardi",Ed);
         activiteService.saveActivite(Muscu);
-        Poker = new Activite("Poker","Petite blind à 1 euro");
+        Poker = new Activite("Poker","Petite blind à 1 euro", Karen);
         activiteService.saveActivite(Poker);
-        Pingpong = new Activite("Ping Pong","Matériel non fourni");
+        Pingpong = new Activite("Ping Pong","Matériel non fourni", Julian);
         activiteService.saveActivite(Pingpong);
-        Jogging = new Activite("Jogging","Tous les midis");
+        Jogging = new Activite("Jogging","Tous les midis",Ed);
         activiteService.saveActivite(Jogging);
-        Philo = new Activite("Philo","Le club des admirateurs de Socrate");
+        Philo = new Activite("Philo","Le club des admirateurs de Socrate",Thom);
         activiteService.saveActivite(Philo);
-        Procrastination = new Activite("Procrastination","On verra demain");
+        Procrastination = new Activite("Procrastination","On verra demain", Thom);
         activiteService.saveActivite(Procrastination);
     }
 

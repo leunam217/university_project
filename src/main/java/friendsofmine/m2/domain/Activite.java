@@ -3,8 +3,11 @@ package friendsofmine.m2.domain;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Activite {
@@ -16,11 +19,20 @@ public class Activite {
     @Size(min=1)
     @NotNull
     private String titre;
+
     private String descriptif;
 
-    public Activite(String titre, String descriptif) {
+    @ManyToOne
+    @NotNull
+    private Utilisateur responsable;
+
+    public Activite(String titre, String descriptif, Utilisateur responsable) {
         this.titre = titre;
         this.descriptif = descriptif;
+        this.responsable = responsable;
+    }
+
+    public Activite(){
     }
 
     public Long getId() {
@@ -39,7 +51,21 @@ public class Activite {
         this.descriptif = descriptif;
     }
 
+
+
     public String getTitre() {
         return titre;
+    }
+
+    public Utilisateur getResponsable() {
+        return responsable;
+    }
+
+    public void setResponsable(Utilisateur responsable) {
+        this.responsable = responsable;
+    }
+
+    public void setTitre(String titre) {
+        this.titre = titre;
     }
 }

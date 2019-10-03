@@ -3,15 +3,11 @@ package friendsofmine.m2;
 import friendsofmine.m2.domain.Utilisateur;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringRunner;
-
 import static org.junit.Assert.*;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
-@RunWith(SpringRunner.class)
 public class UtilisateurTest {
 
     private static Validator validator;
@@ -110,6 +106,15 @@ public class UtilisateurTest {
         Utilisateur util = new Utilisateur("Durand", "Eric", "jd@jd.com", null);
         // then: util n'est pas validé par le validator
         assertFalse(validator.validate(util).isEmpty());
+    }
+
+    @Test
+    public void testUnNouvelleUtilisateurEstSansActivite() {
+        // given; un nouvel Utilisateur
+        // when: l'Utilisateur util est créé
+        Utilisateur util = new Utilisateur("Durand", "Eric", "jd@jd.com", "M");
+        // then:  util n'a pas d'activité
+        assertEquals("Un nouvel Utilisateur n'a pas d'activité" , 0, util.getActivites().size());
     }
 
 }

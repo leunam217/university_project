@@ -1,12 +1,12 @@
 package friendsofmine.m2.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Utilisateur {
@@ -30,11 +30,18 @@ public class Utilisateur {
     @Pattern(regexp ="[MF]" )
     private String sexe;
 
+    @OneToMany(mappedBy = "responsable",fetch = FetchType.EAGER)
+    private Set<Activite> activites =new HashSet<>();
+
     public Utilisateur(String nom, String prenom, String email, String sexe) {
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
         this.sexe = sexe;
+        activites = new HashSet<>();
+    }
+
+    public Utilisateur() {
     }
 
 
@@ -78,4 +85,11 @@ public class Utilisateur {
         this.sexe = sexe;
     }
 
+    public Set<Activite> getActivites() {
+        return activites;
+    }
+
+    public void setActivites(Set<Activite> activites) {
+        this.activites = activites;
+    }
 }

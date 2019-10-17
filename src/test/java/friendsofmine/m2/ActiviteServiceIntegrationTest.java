@@ -11,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
@@ -142,5 +144,36 @@ public class ActiviteServiceIntegrationTest {
         activiteService.saveActivite(act1);
         assertEquals(countActiviteResponsable + 1, utilisateur.getActivites().size());
     }
+
+    @Test
+    public void testFindAllActiviteFromDataLoaderCardinal() {
+        // given: un DataLoader initialisant la base à 7 activités
+        // when: la liste des activités est récupérée
+        ArrayList<Activite> activites = activiteService.findAllActivites();
+        // then: il y a 7 activités dedans
+        assertEquals("Nombre d'activités présentes dans le DataLoader récupérées dans le service",
+                7, activites.size());
+    }
+
+    @Test
+    public void testFindAllActiviteFromDataLoaderAreSortedByTitre() {
+        // given: un DataLoader initialisant la base des Activite
+        // when: la liste des activités est récupérée
+        ArrayList<Activite> activites = activiteService.findAllActivites();
+        // then: la liste est triée selon le Titre des Activites
+        assertTrue("les éléments 0 et 1 de la liste sont bien triés",
+                (activites.get(0).getTitre()).compareTo(activites.get(1).getTitre()) < 0);
+        assertTrue("les éléments 1 et 2 de la liste sont bien triés",
+                (activites.get(1).getTitre()).compareTo(activites.get(2).getTitre()) < 0);
+        assertTrue("les éléments 2 et 3 de la liste sont bien triés",
+                (activites.get(2).getTitre()).compareTo(activites.get(3).getTitre()) < 0);
+        assertTrue("les éléments 3 et 4 de la liste sont bien triés",
+                (activites.get(3).getTitre()).compareTo(activites.get(4).getTitre()) < 0);
+        assertTrue("les éléments 4 et 5 de la liste sont bien triés",
+                (activites.get(4).getTitre()).compareTo(activites.get(5).getTitre()) < 0);
+        assertTrue("les éléments 5 et 6 de la liste sont bien triés",
+                (activites.get(5).getTitre()).compareTo(activites.get(6).getTitre()) < 0);
+    }
+
 
 }

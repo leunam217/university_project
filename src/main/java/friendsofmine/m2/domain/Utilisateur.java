@@ -1,5 +1,7 @@
 package friendsofmine.m2.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -30,6 +32,7 @@ public class Utilisateur {
     @Pattern(regexp ="[MF]" )
     private String sexe;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "responsable",fetch = FetchType.EAGER)
     private Set<Activite> activites =new HashSet<>();
 

@@ -63,5 +63,14 @@ public class ActiviteServiceTest {
         // then: la méthode findById du Repository associé est invoquée
         verify(activiteService.getActiviteRepository()).findById(0L);
     }
+
+    @Test
+    public void testFindAllFromCrudRepositoryIsInvokedWhenFindAllActivite() {
+        // given: un ActiviteService
+        // when: la méthode findAllActivite est invoquée
+        activiteService.findAllActivites();
+        // then: la méthode findAll du Repository associé est invoquée
+        verify(activiteService.getActiviteRepository()).findAll();
+    }
     
 }

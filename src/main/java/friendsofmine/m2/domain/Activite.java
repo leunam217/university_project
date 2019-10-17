@@ -1,5 +1,7 @@
 package friendsofmine.m2.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -22,6 +24,7 @@ public class Activite {
 
     private String descriptif;
 
+    @JsonManagedReference
     @ManyToOne
     @NotNull
     private Utilisateur responsable;

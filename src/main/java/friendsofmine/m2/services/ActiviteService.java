@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 
 @Service
@@ -46,7 +47,6 @@ public class ActiviteService {
         activite.getResponsable().getActivites().add(activite);
         Activite activite1 = activiteRepository.save(activite);
         return activite1;
-
     }
 
     public long countActivite(){
@@ -57,6 +57,7 @@ public class ActiviteService {
     public ArrayList<Activite> findAllActivites() {
         ArrayList<Activite> result = new ArrayList<>();
         activiteRepository.findAll().forEach(result::add);
+        result.sort(Comparator.comparing(Activite::getTitre));
         return result;
     }
 }

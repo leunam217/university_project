@@ -12,10 +12,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.mockito.Mockito.verify;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 public class ActiviteServiceTest {
@@ -27,6 +26,9 @@ public class ActiviteServiceTest {
 
     @MockBean
     private UtilisateurRepository utilisateurRepository;
+
+    @MockBean
+    private Activite activite;
 
     @MockBean
     private Utilisateur utilisateur;
@@ -52,10 +54,10 @@ public class ActiviteServiceTest {
         when(activiteService.getActiviteRepository().save(activite)).thenReturn(activite);
         // when: la méthode saveActivite est invoquée
         activiteService.saveActivite(activite);
-        // then: la méthode save du UtilisateurRepository associé est invoquée (pas de cascade !!!)
-        verify(activiteService.getUtilisateurRepository()).save(utilisateur);
         // then: la méthode save du ActiviteRepository associé est invoquée
         verify(activiteService.getActiviteRepository()).save(activite);
+        // then: la méthode save du UtilisateurRepository associé n'est pas invoquée (on requiert ainsi l'utilisation d'une cascade)
+        verify(activiteService.getUtilisateurRepository(), never()).save(utilisateur);
     }
 
     @Test

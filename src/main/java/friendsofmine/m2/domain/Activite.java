@@ -22,7 +22,7 @@ public class Activite {
     private String descriptif;
 
     @JsonManagedReference
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @NotNull
     private Utilisateur responsable;
 

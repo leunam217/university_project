@@ -2,6 +2,7 @@ package friendsofmine.m2;
 
 import friendsofmine.m2.domain.Utilisateur;
 import friendsofmine.m2.services.UtilisateurService;
+import friendsofmine.m2.util.TransactionalRunner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,13 +10,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;	
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
 public class UtilisateurServiceIntegrationTest {
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @Autowired
+    private TransactionalRunner txRunner;
+
+    @Autowired
+    private DataLoader dataLoader;
 
     @Autowired
     private UtilisateurService utilisateurService;
@@ -125,5 +140,38 @@ public class UtilisateurServiceIntegrationTest {
         // then: null est retourné
         assertNull(utilisateurService.findUtilisateurById(1000L));
     }
+
+    @Test
+    public void testUtilisateurAreVersioned() {
+        // given: un utilisateur fraîchement ajouté en base et positionné dans le contexte de persistance
+        Utilisateur utilisateur = entityManager.merge(dataLoader.getThom());
+
+        // when: on consulte le numéro de version de l'utilisateur
+        // then: l'utilisateur a le numéro de version 0
+        assertThat(utilisateur.getVersion(), is(0L));
+        // when: on modifie l'utilisateur en base
+        utilisateur.setEmail("new@mail.ru");
+        utilisateurService.saveUtilisateur(utilisateur);
+        entityManager.flush();
+        // then: l'utilisateur a le numéro de version 1
+        assertThat(utilisateur.getVersion(), is(1L));
+    }
+
+    @Test(expected = ObjectOptimisticLockingFailureException.class)
+    public void testOptimisticLockingOnConcurrentUtilisateurModification2() {
+        txRunner.doInTransaction(em -> {
+            em.persist(util);
+        });
+
+        txRunner.doInTransaction(em1 -> {
+            Utilisateur u1 = em1.find(Utilisateur.class, util.getId());
+            txRunner.doInTransaction(em2 -> {
+                Utilisateur u2 = em2.find(Utilisateur.class, util.getId());
+                u2.setEmail("new2@mail.ru");
+            });
+            u1.setEmail("new1@mail.ru");
+        });
+    }
+
 
 }

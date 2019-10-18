@@ -33,8 +33,11 @@ public class Utilisateur {
     private String sexe;
 
     @JsonBackReference
-    @OneToMany(mappedBy = "responsable", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "responsable")
     private Set<Activite> activites =new HashSet<>();
+
+    @Version
+    private long version;
 
     public Utilisateur(String nom, String prenom, String email, String sexe) {
         this.nom = nom;
@@ -94,5 +97,13 @@ public class Utilisateur {
 
     public void setActivites(Set<Activite> activites) {
         this.activites = activites;
+    }
+
+    public long getVersion() {
+        return version;
+    }
+
+    public void setVersion(long version) {
+        this.version = version;
     }
 }

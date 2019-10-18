@@ -44,6 +44,7 @@ public class ActiviteService {
     public Activite saveActivite(Activite activite){
         if (activite==null) throw new IllegalArgumentException();
         Activite activite1 = activiteRepository.save(activite);
+        activite1.getResponsable().getActivites().add(activite1);
         return activite1;
     }
 

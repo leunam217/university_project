@@ -43,9 +43,10 @@ public class ActiviteService {
 
     public Activite saveActivite(Activite activite){
         if (activite==null) throw new IllegalArgumentException();
-        utilisateurRepository.save(activite.getResponsable());
-        activite.getResponsable().getActivites().add(activite);
+        Utilisateur utilisateur =utilisateurRepository.save(activite.getResponsable());
         Activite activite1 = activiteRepository.save(activite);
+        utilisateur.getActivites().add(activite1);
+        activite1.setResponsable(utilisateur);
         return activite1;
     }
 

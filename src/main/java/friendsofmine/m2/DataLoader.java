@@ -8,7 +8,10 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
+
 @Component
+@Transactional
 public class DataLoader implements ApplicationRunner {
     private ActiviteService activiteService;
     private UtilisateurService utilisateurService;
@@ -22,10 +25,18 @@ public class DataLoader implements ApplicationRunner {
         this.utilisateurService = utilisateurService;
     }
 
-    public void run() {
-        initUtilisateurs();
-        initActivites();
+
+    public void initUtilisateurs() {
+        Thom = new Utilisateur("Yorke","Thom","thom@rh.com","M");
+        utilisateurService.saveUtilisateur(Thom);
+        Ed = new Utilisateur("Obrien","Ed","ed@rh.com","M");
+        utilisateurService.saveUtilisateur(Ed);
+        Karen = new Utilisateur("Orzolek","Karen","karen@yyy.com","F");
+        utilisateurService.saveUtilisateur(Karen);
+        Julian = new Utilisateur("Casablancas","Julian","jc@ts.com","M");
+        utilisateurService.saveUtilisateur(Julian);
     }
+
 
     public void initActivites() {
         Guitare = new Activite("Guitare","Matériel non fourni",Thom);
@@ -44,16 +55,6 @@ public class DataLoader implements ApplicationRunner {
         activiteService.saveActivite(Procrastination);
     }
 
-    public void initUtilisateurs() {
-        Thom = new Utilisateur("Yorke","Thom","thom@rh.com","M");
-        utilisateurService.saveUtilisateur(Thom);
-        Ed = new Utilisateur("Obrien","Ed","ed@rh.com","M");
-        utilisateurService.saveUtilisateur(Ed);
-        Karen = new Utilisateur("Orzolek","Karen","karen@yyy.com","F");
-        utilisateurService.saveUtilisateur(Karen);
-        Julian = new Utilisateur("Casablancas","Julian","jc@ts.com","M");
-        utilisateurService.saveUtilisateur(Julian);
-    }
 
     @Override
     public void run(ApplicationArguments args) {

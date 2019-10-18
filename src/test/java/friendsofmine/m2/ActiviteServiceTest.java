@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.mockito.Mockito.verify;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 public class ActiviteServiceTest {
@@ -47,12 +48,14 @@ public class ActiviteServiceTest {
     public void testSaveFromCrudRepositoryIsInvokedWhenActiviteIsSaved() {
         // given: un ActiviteService et une Activite
         Activite activite = new Activite("Truc", "Description du truc", utilisateur);
+        when(activiteService.getUtilisateurRepository().save(utilisateur)).thenReturn(utilisateur);
+        when(activiteService.getActiviteRepository().save(activite)).thenReturn(activite);
         // when: la méthode saveActivite est invoquée
         activiteService.saveActivite(activite);
-        // then: la méthode save du ActiviteRepository associé est invoquée
-        verify(activiteService.getActiviteRepository()).save(activite);
         // then: la méthode save du UtilisateurRepository associé est invoquée (pas de cascade !!!)
         verify(activiteService.getUtilisateurRepository()).save(utilisateur);
+        // then: la méthode save du ActiviteRepository associé est invoquée
+        verify(activiteService.getActiviteRepository()).save(activite);
     }
 
     @Test
@@ -72,5 +75,5 @@ public class ActiviteServiceTest {
         // then: la méthode findAll du Repository associé est invoquée
         verify(activiteService.getActiviteRepository()).findAll();
     }
-    
+
 }

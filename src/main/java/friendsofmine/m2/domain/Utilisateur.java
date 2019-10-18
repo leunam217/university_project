@@ -33,7 +33,7 @@ public class Utilisateur {
     private String sexe;
 
     @JsonBackReference
-    @OneToMany(mappedBy = "responsable",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "responsable")
     private Set<Activite> activites =new HashSet<>();
 
     public Utilisateur(String nom, String prenom, String email, String sexe) {

@@ -5,6 +5,7 @@ import friendsofmine.m2.domain.Utilisateur;
 import friendsofmine.m2.repositories.ActiviteRepository;
 import friendsofmine.m2.repositories.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -37,4 +38,19 @@ public class UtilisateurService {
     public long countUtilisateur(){
        return utilisateurRepository.count();
     }
+
+    @Cacheable("activites")
+    public Utilisateur findUtilisateurByEmail(String email) {
+        // simulate slow service
+        try {
+            long time = 3000L;
+            Thread.sleep(time);
+        } catch (InterruptedException e) {
+            throw new IllegalStateException(e);
+        }
+
+        return utilisateurRepository.findByEmail(email);
+    }
+
+
 }

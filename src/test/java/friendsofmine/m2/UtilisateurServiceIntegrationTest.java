@@ -8,9 +8,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.orm.ObjectOptimisticLockingFailureException;	
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -155,6 +155,7 @@ public class UtilisateurServiceIntegrationTest {
         entityManager.flush();
         // then: l'utilisateur a le numéro de version 1
         assertThat(utilisateur.getVersion(), is(1L));
+
     }
 
     @Test(expected = ObjectOptimisticLockingFailureException.class)
@@ -173,5 +174,17 @@ public class UtilisateurServiceIntegrationTest {
         });
     }
 
+    @Test(timeout = 7000)
+    public void testUtilisateurCanBeFetchedInLessThan7Seconds() {
+        // when: les utilisateurs thom et karen sont récupérés en base
+        utilisateurService.findUtilisateurByEmail("thom@rh.com");
+        utilisateurService.findUtilisateurByEmail("karen@yyy.com");
+        // when: on répète une demande d'accès à thom et karen
+        utilisateurService.findUtilisateurByEmail("thom@rh.com");
+        utilisateurService.findUtilisateurByEmail("karen@yyy.com");
+        utilisateurService.findUtilisateurByEmail("thom@rh.com");
+        utilisateurService.findUtilisateurByEmail("thom@rh.com");
+        // then: les 6 requêtes sont exécutées en moins de 7 secondes
+    }
 
 }

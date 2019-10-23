@@ -5,6 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface UtilisateurRepository extends CrudRepository<Utilisateur, Long> {
 
-    public Utilisateur findByEmail(String email);
+     Utilisateur findByEmail(String email);
 
 }

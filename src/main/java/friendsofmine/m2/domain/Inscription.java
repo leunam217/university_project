@@ -27,6 +27,12 @@ public class Inscription {
     public Inscription() {
     }
 
+    public Inscription(Utilisateur participant, Activite activite , Date dateInscription) {
+        this.activite = activite;
+        this.participant = participant;
+        this.dateInscription = dateInscription;
+    }
+
     public Activite getActivite() {
         return activite;
     }
@@ -49,5 +55,13 @@ public class Inscription {
 
     public void setDateInscription(Date dateInscription) {
         this.dateInscription = dateInscription;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

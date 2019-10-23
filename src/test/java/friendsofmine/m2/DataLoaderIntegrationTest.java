@@ -1,6 +1,8 @@
 package friendsofmine.m2;
 
+import friendsofmine.m2.domain.Inscription;
 import friendsofmine.m2.services.ActiviteService;
+import friendsofmine.m2.services.InscriptionService;
 import friendsofmine.m2.services.UtilisateurService;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,6 +24,9 @@ public class DataLoaderIntegrationTest {
 
     @Autowired
     private UtilisateurService utilisateurService;
+
+    @Autowired
+    private InscriptionService inscriptionService;
 
     @Autowired
     private DataLoader dataLoader;
@@ -139,12 +144,52 @@ public class DataLoaderIntegrationTest {
         assertEquals(dataLoader.getEd().getId(), dataLoader.getJogging().getResponsable().getId());
         // Ed est responsable de l'activité "muscu"
         assertEquals(dataLoader.getEd().getId(), dataLoader.getMuscu().getResponsable().getId());
+    }
 
+    @Test
+    public void testCardinalInscription() {
+        // au démarrage de l'application, il y a 5 inscriptions en base
+        assertEquals(5, inscriptionService.countInscription());
+    }
 
+    @Test
+    public void testThomEstInscritAuPingPong() {
+        // Thom est inscrit au PingPong
+        Inscription thomAuPingPong = dataLoader.getThomAuPingPong();
+        assertEquals(dataLoader.getThom().getId(), thomAuPingPong.getParticipant().getId());
+        assertEquals(dataLoader.getPingpong().getId(), thomAuPingPong.getActivite().getId());
+    }
 
+    @Test
+    public void testThomEstInscritAuPoker() {
+        // Thom est inscrit au Poker
+        Inscription thomAuPoker = dataLoader.getThomAuPoker();
+        assertEquals(dataLoader.getThom().getId(), thomAuPoker.getParticipant().getId());
+        assertEquals(dataLoader.getPoker().getId(), thomAuPoker.getActivite().getId());
+    }
 
+    @Test
+    public void testEdEstInscritAuJogging() {
+        // Ed est inscrit au Jogging
+        Inscription edAuJogging = dataLoader.getEdAuJogging();
+        assertEquals(dataLoader.getEd().getId(), edAuJogging.getParticipant().getId());
+        assertEquals(dataLoader.getJogging().getId(), edAuJogging.getActivite().getId());
+    }
 
+    @Test
+    public void testKarenEstInscriteALAPhilo() {
+        // Karen est inscrite à la Philo
+        Inscription karenALaPhilo = dataLoader.getKarenALaPhilo();
+        assertEquals(dataLoader.getKaren().getId(), karenALaPhilo.getParticipant().getId());
+        assertEquals(dataLoader.getPhilo().getId(), karenALaPhilo.getActivite().getId());
+    }
 
+    @Test
+    public void testKarenEstInscriteAuPingPong() {
+        // Karen est inscrite au PingPong
+        Inscription karenAuPingPong = dataLoader.getKarenAuPingPong();
+        assertEquals(dataLoader.getKaren().getId(), karenAuPingPong.getParticipant().getId());
+        assertEquals(dataLoader.getPingpong().getId(), karenAuPingPong.getActivite().getId());
     }
 
 }

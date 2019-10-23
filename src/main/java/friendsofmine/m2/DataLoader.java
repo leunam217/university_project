@@ -1,8 +1,10 @@
 package friendsofmine.m2;
 
 import friendsofmine.m2.domain.Activite;
+import friendsofmine.m2.domain.Inscription;
 import friendsofmine.m2.domain.Utilisateur;
 import friendsofmine.m2.services.ActiviteService;
+import friendsofmine.m2.services.InscriptionService;
 import friendsofmine.m2.services.UtilisateurService;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -13,16 +15,20 @@ import javax.transaction.Transactional;
 @Component
 @Transactional
 public class DataLoader implements ApplicationRunner {
+
     private ActiviteService activiteService;
+
     private UtilisateurService utilisateurService;
 
+    private InscriptionService inscriptionService;
 
     private Activite Procrastination, Philo, Jogging, Pingpong, Poker, Muscu, Guitare;
     private Utilisateur Julian, Karen, Ed, Thom;
 
-    public DataLoader(ActiviteService activiteService, UtilisateurService utilisateurService) {
+    public DataLoader(ActiviteService activiteService, UtilisateurService utilisateurService, InscriptionService inscriptionService) {
         this.activiteService = activiteService;
         this.utilisateurService = utilisateurService;
+        this.inscriptionService = inscriptionService;
     }
 
 
@@ -60,6 +66,15 @@ public class DataLoader implements ApplicationRunner {
     public void run(ApplicationArguments args) {
         initUtilisateurs();
         initActivites();
+        initInscriptions();
+    }
+
+    public void initInscriptions() {
+        inscriptionService.saveInscription(getThomAuPingPong());
+        inscriptionService.saveInscription(getThomAuPoker());
+        inscriptionService.saveInscription(getEdAuJogging());
+        inscriptionService.saveInscription(getKarenALaPhilo());
+        inscriptionService.saveInscription(getKarenAuPingPong());
     }
 
 
@@ -106,4 +121,25 @@ public class DataLoader implements ApplicationRunner {
     public Utilisateur getThom() {
         return Thom;
     }
+
+    public Inscription getThomAuPingPong (){
+        return new Inscription(getThom(),getPingpong(),null);
+    }
+
+    public Inscription getThomAuPoker() {
+        return new Inscription(getThom(),getPoker(),null);
+    }
+
+    public Inscription getEdAuJogging() {
+        return new Inscription(getEd(),getJogging(),null);
+    }
+
+    public Inscription getKarenALaPhilo() {
+        return new Inscription(getKaren(),getPhilo(),null);
+    }
+
+    public Inscription getKarenAuPingPong() {
+        return new Inscription(getKaren(),getPingpong(),null);
+    }
+
 }

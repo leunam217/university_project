@@ -39,7 +39,7 @@ public class UtilisateurService {
        return utilisateurRepository.count();
     }
 
-    @Cacheable("activites")
+    @Cacheable("utilisateurs")
     public Utilisateur findUtilisateurByEmail(String email) {
         // simulate slow service
         try {

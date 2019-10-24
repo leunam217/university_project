@@ -21,9 +21,23 @@ public class DataLoader implements ApplicationRunner {
     private UtilisateurService utilisateurService;
 
     private InscriptionService inscriptionService;
+    private Inscription karenAuPingPong;
+    private Inscription karenALaPhilo;
+    private Inscription edAuJogging;
+    private Inscription thomAuPoker;
+    private Inscription thomAuPingPong;
+    private Utilisateur thom;
+    private Utilisateur ed;
+    private Utilisateur karen;
+    private Utilisateur julian;
+    private Activite guitare;
+    private Activite muscu;
+    private Activite poker;
+    private Activite pingpong;
+    private Activite jogging;
+    private Activite philo;
+    private Activite procrastination;
 
-    private Activite Procrastination, Philo, Jogging, Pingpong, Poker, Muscu, Guitare;
-    private Utilisateur Julian, Karen, Ed, Thom;
 
     public DataLoader(ActiviteService activiteService, UtilisateurService utilisateurService, InscriptionService inscriptionService) {
         this.activiteService = activiteService;
@@ -33,32 +47,32 @@ public class DataLoader implements ApplicationRunner {
 
 
     public void initUtilisateurs() {
-        Thom = new Utilisateur("Yorke","Thom","thom@rh.com","M");
-        utilisateurService.saveUtilisateur(Thom);
-        Ed = new Utilisateur("Obrien","Ed","ed@rh.com","M");
-        utilisateurService.saveUtilisateur(Ed);
-        Karen = new Utilisateur("Orzolek","Karen","karen@yyy.com","F");
-        utilisateurService.saveUtilisateur(Karen);
-        Julian = new Utilisateur("Casablancas","Julian","jc@ts.com","M");
-        utilisateurService.saveUtilisateur(Julian);
+        initThom();
+        initEd();
+        initKaren();
+        initJulian();
+        utilisateurService.saveUtilisateur(thom);
+        utilisateurService.saveUtilisateur(ed);
+        utilisateurService.saveUtilisateur(karen);
+        utilisateurService.saveUtilisateur(julian);
     }
 
 
     public void initActivites() {
-        Guitare = new Activite("Guitare","Matériel non fourni",Thom);
-        activiteService.saveActivite(Guitare);
-        Muscu = new Activite("Muscu","Créneau réservé le mardi",Ed);
-        activiteService.saveActivite(Muscu);
-        Poker = new Activite("Poker","Petite blind à 1 euro", Karen);
-        activiteService.saveActivite(Poker);
-        Pingpong = new Activite("Ping Pong","Matériel non fourni", Julian);
-        activiteService.saveActivite(Pingpong);
-        Jogging = new Activite("Jogging","Tous les midis",Ed);
-        activiteService.saveActivite(Jogging);
-        Philo = new Activite("Philo","Le club des admirateurs de Socrate",Thom);
-        activiteService.saveActivite(Philo);
-        Procrastination = new Activite("Procrastination","On verra demain", Thom);
-        activiteService.saveActivite(Procrastination);
+        initGuitare();
+        initMuscu();
+        initPoker();
+        initPingpong();
+        initJogging();
+        initPhilo();
+        initProcrastination();
+        activiteService.saveActivite(guitare);
+        activiteService.saveActivite(muscu);
+        activiteService.saveActivite(poker);
+        activiteService.saveActivite(pingpong);
+        activiteService.saveActivite(jogging);
+        activiteService.saveActivite(philo);
+        activiteService.saveActivite(procrastination);
     }
 
 
@@ -70,76 +84,232 @@ public class DataLoader implements ApplicationRunner {
     }
 
     public void initInscriptions() {
-        inscriptionService.saveInscription(getThomAuPingPong());
-        inscriptionService.saveInscription(getThomAuPoker());
-        inscriptionService.saveInscription(getEdAuJogging());
-        inscriptionService.saveInscription(getKarenALaPhilo());
-        inscriptionService.saveInscription(getKarenAuPingPong());
+        initThomAuPingPong();
+        initThomAuPoker();
+        initEdAuJogging();
+        initKarenALaPhilo();
+        initKarenAuPingPong();
+        inscriptionService.saveInscription(thomAuPingPong);
+        inscriptionService.saveInscription(thomAuPoker);
+        inscriptionService.saveInscription(edAuJogging);
+        inscriptionService.saveInscription(karenALaPhilo);
+        inscriptionService.saveInscription(karenAuPingPong);
     }
 
 
-    public Activite getProcrastination() {
-        return Procrastination;
+    public void initProcrastination() {
+        procrastination =new Activite("Procrastination","On verra demain", thom);
     }
 
-    public Activite getPhilo() {
-        return Philo;
+    public void initPhilo() {
+        philo= new Activite("Philo","Le club des admirateurs de Socrate",thom);
     }
 
-    public Activite getJogging() {
-        return Jogging;
+    public void initJogging() {
+        jogging = new Activite("Jogging","Tous les midis",ed);
     }
 
-    public Activite getPingpong() {
-        return Pingpong;
+    public void initPingpong() {
+        pingpong = new Activite("Ping Pong","Matériel non fourni", julian);
     }
 
-    public Activite getPoker() {
-        return Poker;
+    public void initPoker() {
+        poker = new Activite("Poker","Petite blind à 1 euro", karen);
     }
 
-    public Activite getMuscu() {
-        return Muscu;
+    public void initMuscu() {
+        muscu = new Activite("Muscu","Créneau réservé le mardi",ed);
     }
 
-    public Activite getGuitare() {
-        return Guitare;
+    public void initGuitare() {
+        guitare = new Activite("Guitare","Matériel non fourni",thom);
     }
 
-    public Utilisateur getJulian() {
-        return Julian;
+    public void initJulian() {
+        julian = new Utilisateur("Casablancas","Julian","jc@ts.com","M");
     }
 
-    public Utilisateur getKaren() {
-        return Karen;
+    public void initKaren() {
+        karen = new Utilisateur("Orzolek","Karen","karen@yyy.com","F");
     }
 
-    public Utilisateur getEd() {
-        return Ed;
+    public void initEd() {
+        ed = new Utilisateur("Obrien","Ed","ed@rh.com","M");
     }
 
-    public Utilisateur getThom() {
-        return Thom;
+    public void initThom() {
+        thom = new Utilisateur("Yorke","Thom","thom@rh.com","M");
     }
 
-    public Inscription getThomAuPingPong (){
-        return new Inscription(getThom(),getPingpong(),null);
+    public void initThomAuPingPong (){
+        thomAuPingPong = new Inscription(thom,pingpong,null);
     }
 
-    public Inscription getThomAuPoker() {
-        return new Inscription(getThom(),getPoker(),null);
+    public void initThomAuPoker() {
+        thomAuPoker = new Inscription(thom,poker,null);
     }
 
-    public Inscription getEdAuJogging() {
-        return new Inscription(getEd(),getJogging(),null);
+    public void initEdAuJogging() {
+        edAuJogging = new Inscription(ed,jogging,null);
     }
 
-    public Inscription getKarenALaPhilo() {
-        return new Inscription(getKaren(),getPhilo(),null);
+    public void initKarenALaPhilo() {
+        karenALaPhilo = new Inscription(karen,philo,null);
+    }
+
+    public void initKarenAuPingPong() {
+        karenAuPingPong = new Inscription(karen,pingpong,null);
+    }
+
+    public ActiviteService getActiviteService() {
+        return activiteService;
+    }
+
+    public void setActiviteService(ActiviteService activiteService) {
+        this.activiteService = activiteService;
+    }
+
+    public UtilisateurService getUtilisateurService() {
+        return utilisateurService;
+    }
+
+    public void setUtilisateurService(UtilisateurService utilisateurService) {
+        this.utilisateurService = utilisateurService;
+    }
+
+    public InscriptionService getInscriptionService() {
+        return inscriptionService;
+    }
+
+    public void setInscriptionService(InscriptionService inscriptionService) {
+        this.inscriptionService = inscriptionService;
     }
 
     public Inscription getKarenAuPingPong() {
-        return new Inscription(getKaren(),getPingpong(),null);
+        return karenAuPingPong;
     }
 
+    public void setKarenAuPingPong(Inscription karenAuPingPong) {
+        this.karenAuPingPong = karenAuPingPong;
+    }
+
+    public Inscription getKarenALaPhilo() {
+        return karenALaPhilo;
+    }
+
+    public void setKarenALaPhilo(Inscription karenALaPhilo) {
+        this.karenALaPhilo = karenALaPhilo;
+    }
+
+    public Inscription getEdAuJogging() {
+        return edAuJogging;
+    }
+
+    public void setEdAuJogging(Inscription edAuJogging) {
+        this.edAuJogging = edAuJogging;
+    }
+
+    public Inscription getThomAuPoker() {
+        return thomAuPoker;
+    }
+
+    public void setThomAuPoker(Inscription thomAuPoker) {
+        this.thomAuPoker = thomAuPoker;
+    }
+
+    public Inscription getThomAuPingPong() {
+        return thomAuPingPong;
+    }
+
+    public void setThomAuPingPong(Inscription thomAuPingPong) {
+        this.thomAuPingPong = thomAuPingPong;
+    }
+
+    public Utilisateur getThom() {
+        return thom;
+    }
+
+    public void setThom(Utilisateur thom) {
+        this.thom = thom;
+    }
+
+    public Utilisateur getEd() {
+        return ed;
+    }
+
+    public void setEd(Utilisateur ed) {
+        this.ed = ed;
+    }
+
+    public Utilisateur getKaren() {
+        return karen;
+    }
+
+    public void setKaren(Utilisateur karen) {
+        this.karen = karen;
+    }
+
+    public Utilisateur getJulian() {
+        return julian;
+    }
+
+    public void setJulian(Utilisateur julian) {
+        this.julian = julian;
+    }
+
+    public Activite getGuitare() {
+        return guitare;
+    }
+
+    public void setGuitare(Activite guitare) {
+        this.guitare = guitare;
+    }
+
+    public Activite getMuscu() {
+        return muscu;
+    }
+
+    public void setMuscu(Activite muscu) {
+        this.muscu = muscu;
+    }
+
+    public Activite getPoker() {
+        return poker;
+    }
+
+    public void setPoker(Activite poker) {
+        this.poker = poker;
+    }
+
+    public Activite getPingpong() {
+        return pingpong;
+    }
+
+    public void setPingpong(Activite pingpong) {
+        this.pingpong = pingpong;
+    }
+
+    public Activite getJogging() {
+        return jogging;
+    }
+
+    public void setJogging(Activite jogging) {
+        this.jogging = jogging;
+    }
+
+    public Activite getPhilo() {
+        return philo;
+    }
+
+    public void setPhilo(Activite philo) {
+        this.philo = philo;
+    }
+
+    public Activite getProcrastination() {
+        return procrastination;
+    }
+
+    public void setProcrastination(Activite procrastination) {
+        this.procrastination = procrastination;
+    }
 }

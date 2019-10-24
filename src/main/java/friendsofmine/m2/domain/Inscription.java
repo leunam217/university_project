@@ -1,9 +1,6 @@
 package friendsofmine.m2.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -15,11 +12,11 @@ public class Inscription {
     private Long id;
 
     @NotNull
-    @OneToOne
+    @ManyToOne
     private Activite activite;
 
     @NotNull
-    @OneToOne
+    @ManyToOne
     private Utilisateur participant;
 
     private Date dateInscription;
